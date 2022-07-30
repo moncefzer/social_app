@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "411328607263",
+    "project_id": "udemy-course-social-app-bcd2a",
+    "storage_bucket": "udemy-course-social-app-bcd2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411328607263:android:2ae12341e9eced251bd12a",
+        "android_client_info": {
+          "package_name": "com.example.social_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411328607263-poh2b9lrl1kiethgvkav3b2s8hg6im1j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.social_app",
+            "certificate_hash": "f137e87e988fd2eef16c85b0feebef23f118727e"
+          }
+        },
+        {
+          "client_id": "411328607263-51chk16hlp2q6sh2o7vvj7jhpmhi5i4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb4GHPiryfA7r-1ZT0D3xN2q5LwgTeUIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411328607263-51chk16hlp2q6sh2o7vvj7jhpmhi5i4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
