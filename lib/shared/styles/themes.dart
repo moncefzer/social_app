@@ -41,11 +41,18 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: HexColor('333739'),
   ),
   textTheme: const TextTheme(
-      bodyText1: TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: Colors.white,
-  )),
+    bodyText1: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    ),
+    subtitle1: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+      height: 1.3,
+    ),
+  ),
   fontFamily: defaultFontFamily,
 );
 
@@ -66,6 +73,7 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
     ),
     titleTextStyle: TextStyle(
       color: Colors.black,
@@ -90,6 +98,12 @@ ThemeData lightTheme = ThemeData(
       fontSize: 18,
       fontWeight: FontWeight.w600,
       color: Colors.black,
+    ),
+    subtitle1: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      height: 1.3,
     ),
   ),
   fontFamily: defaultFontFamily,

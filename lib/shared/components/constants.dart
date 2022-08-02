@@ -6,6 +6,12 @@ const String NEWSAPIURL = 'https://newsapi.org/';
 const String SHOPAPIURL = 'https://student.valuxapps.com/api/';
 const String urlToNoImageAvailable =
     'https://demofree.sirv.com/nope-not-here.jpg';
+
+const String urlToDefaultProfileImage =
+    "https://img.freepik.com/premium-photo/little-boy-eats-ice-cream-cone-blue-background-with-free-space-copying-text_548699-1714.jpg?w=1060";
+const String urlToDefaultCoverImage =
+    "https://img.freepik.com/premium-photo/little-boy-eats-ice-cream-cone-blue-background-with-free-space-copying-text_548699-1714.jpg?w=1060";
+const String defaultBioText = 'write your bio ...';
 const String SHOPAPPLANG = 'en';
 
 String TOKEN = '';

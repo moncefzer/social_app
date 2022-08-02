@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:social_app/shared/components/constants.dart';
+import 'package:social_app/shared/styles/icon_broken.dart';
 
 Widget defaultButton({
   double width = double.infinity,
@@ -23,7 +24,11 @@ Widget defaultButton({
         onPressed: function,
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: const TextStyle(color: Colors.white, fontSize: 16),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
@@ -171,6 +176,17 @@ Widget buildLoadingIndicator() => const Center(
       child: CircularProgressIndicator(),
     );
 
+class LoadingIndicator extends StatelessWidget {
+  const LoadingIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+
 Widget buildCenterText(
         {String text = 'Hello',
         double size = 17,
@@ -295,6 +311,48 @@ Widget buildArticlesList({
           ? buildLoadingIndicator()
           : buildCenterText(text: "No Result Found"),
     );
+
+PreferredSizeWidget defaultAppBar({
+  required context,
+  String title = 'Title',
+  List<Widget>? actions,
+}) =>
+    AppBar(
+      title: Text(title),
+      titleSpacing: 5,
+      leading: IconButton(
+        onPressed: () {
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+        },
+        icon: Icon(IconBroken.Arrow___Left_2),
+      ),
+      actions: actions,
+    );
+
+class DefaultAppBar extends StatelessWidget {
+  String titleText;
+  List<Widget>? actions;
+  DefaultAppBar({
+    required context,
+    this.titleText = 'Title',
+    this.actions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    print('build appbar ${titleText}');
+    return AppBar(
+      title: Text(titleText),
+      leading: IconButton(
+        onPressed: () {},
+        icon: Icon(IconBroken.Arrow___Left_2),
+      ),
+      actions: actions,
+    );
+  }
+}
 
 void navigatoTo({required BuildContext context, required Widget widget}) =>
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => widget));

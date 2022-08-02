@@ -1,4 +1,8 @@
 const double defaultPadding = 15;
+const double defaultMarging = 8;
+const double defaultElevation = 3;
+const double defaultRadius = 5;
+
 const defaultFontFamily = 'Jannah';
 
 /// NAME         SIZE  WEIGHT  SPACING

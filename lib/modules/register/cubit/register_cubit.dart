@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/models/user_model.dart';
 import 'package:social_app/modules/register/cubit/register_state.dart';
+import 'package:social_app/shared/components/constants.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterInitialState());
@@ -40,6 +41,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       phone: phone,
       uId: uId,
       isEmailVerified: false,
+      profileImage: urlToDefaultProfileImage,
+      coverImage: urlToDefaultCoverImage,
+      bio: defaultBioText,
     );
     FirebaseFirestore.instance
         .collection('users')
