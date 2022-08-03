@@ -113,7 +113,7 @@ class FeedsScreen extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          model.dateTime,
+                          '${model.dateTime}',
                           style: Theme.of(context).textTheme.caption!.copyWith(
                                 height: 1.4,
                               ),
@@ -276,6 +276,7 @@ class FeedsScreen extends StatelessWidget {
               ),
               Row(
                 children: [
+                  //todo : impliment the comments feature
                   Expanded(
                     child: InkWell(
                       onTap: () {},

@@ -1,5 +1,10 @@
 import 'dart:io';
 
+import 'package:social_app/layout/cubit/app_cubit.dart';
+import 'package:social_app/modules/login/login_screen.dart';
+import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/network/local/cache_helper.dart';
+
 /// const String newsApiKey = 'e0c22cd4e7a049a7a87c74b79e007e59';
 const String NEWSAPIKEY = '2b3f7d1043a54311b43d176f5ffafc5d';
 const String NEWSAPIURL = 'https://newsapi.org/';
@@ -32,12 +37,12 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void signOut(context) {
-  // CacheHelper.removeData('token').then((value) {
-  //   if (value) {
-  //     navigatoAndFinish(context: context, widget: ShopLoginScreen());
-  //     ShopCubit.get(context).currentIndex = 0;
-  //   }
-  // });
+  CacheHelper.removeData('uId').then((value) {
+    if (value) {
+      navigatoAndFinish(context: context, widget: LoginScreen());
+      AppCubit.get(context).currentIndex = 0;
+    }
+  });
 }
 
 ///if we want to use sendverification email

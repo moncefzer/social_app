@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/layout/cubit/app_state.dart';
+import 'package:social_app/models/message_model.dart';
 import 'package:social_app/models/post_model.dart';
 import 'package:social_app/models/user_model.dart';
 import 'package:social_app/modules/chats/chats_screen.dart';
@@ -13,6 +14,7 @@ import 'package:social_app/modules/settings/settings_screen.dart';
 import 'package:social_app/modules/users/users_screen.dart';
 import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/network/remote/firestore_helper.dart';
+import 'package:uuid/uuid.dart';
 
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppInitialState());
@@ -42,6 +44,8 @@ class AppCubit extends Cubit<AppState> {
   List<String> titles = ['Home', 'Chats', 'Post', 'Users', 'Settings'];
   int currentIndex = 0;
   void changeNavItem(int index) {
+    if (index == 0 && posts.isEmpty) getPosts();
+    if (index == 1) getAllUser();
     if (index == 2) {
       emit(AppNewPostState());
     } else {
@@ -196,11 +200,10 @@ class AppCubit extends Cubit<AppState> {
     required String text,
     String? postImage,
   }) async {
-    //todo : add random id generator to postId
-    var now = DateTime.now().toString();
-
+    var uui = const Uuid();
+    String postId = uui.v1();
     PostModel model = PostModel(
-      postId: now,
+      postId: postId,
       name: name,
       uId: uId,
       image: image,
@@ -212,27 +215,43 @@ class AppCubit extends Cubit<AppState> {
     );
     return await FirebaseFirestore.instance
         .collection('posts')
-        .doc(now)
+        .doc(postId)
         .set(model.toMap());
   }
 
   List<PostModel> posts = [];
 
   void getPosts() {
+    ///realtime posts
     emit(AppGetPostsLoadingState());
-    FirebaseFirestore.instance.collection('posts').get().then((value) {
-      print(value.docs.length);
-      for (int i = 0; i < value.docs.length; i++) {
-        print(value.docs[i].data());
-        posts.add(PostModel.fromJson(value.docs[i].data()));
-        print(posts[i].nbComments);
-        print(posts[i].nbLikes);
+    FirebaseFirestore.instance
+        .collection('posts')
+        .orderBy('dateTime', descending: true)
+        .snapshots()
+        .listen((event) {
+      print('get posts');
+      posts = [];
+      for (int i = 0; i < event.docs.length; i++) {
+        posts.add(PostModel.fromJson(event.docs[i].data()));
       }
       emit(AppGetPostsSuccessState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(AppGetPostsErrorState(error.toString()));
     });
+
+    /// get in the launching of the app
+    // emit(AppGetPostsLoadingState());
+    // FirebaseFirestore.instance
+    //     .collection('posts')
+    //     .orderBy('dateTime', descending: true)
+    //     .get()
+    //     .then((value) {
+    //   for (int i = 0; i < value.docs.length; i++) {
+    //     posts.add(PostModel.fromJson(value.docs[i].data()));
+    //   }
+    //   emit(AppGetPostsSuccessState());
+    // }).catchError((error) {
+    //   print(error.toString());
+    //   emit(AppGetPostsErrorState(error.toString()));
+    // });
   }
 
   void likePost({
@@ -284,5 +303,84 @@ class AppCubit extends Cubit<AppState> {
     //   print(error.toString());
     //   emit(AppLikePostErrorState(error.toString()));
     // });
+  }
+
+  List<UserModel> allUsers = [];
+
+  void getAllUser() {
+    emit(AppGetAllUsersLoadingState());
+    allUsers = [];
+    FirebaseFirestore.instance.collection('users').get().then((value) {
+      for (int i = 0; i < value.docs.length; i++) {
+        if (value.docs[i].data()['uId'] != userModel!.uId) {
+          allUsers.add(UserModel.fromJson(value.docs[i].data()));
+        }
+      }
+      emit(AppGetAllUsersSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(AppGetAllUsersErrorState(error.toString()));
+    });
+  }
+
+  void sendMessage({
+    required String receiverId,
+    required String dateTime,
+    required String text,
+  }) {
+    MessageModel messageModel = MessageModel(
+      senderId: userModel!.uId,
+      receiverId: receiverId,
+      dateTime: dateTime,
+      text: text,
+    );
+    var uuid = const Uuid();
+    String randomId = uuid.v1();
+    DocumentReference myChat = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .doc(randomId);
+    DocumentReference otherChat = FirebaseFirestore.instance
+        .collection('users')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(userModel!.uId)
+        .collection('messages')
+        .doc(randomId);
+
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    batch.set(myChat, messageModel.toMap());
+    batch.set(otherChat, messageModel.toMap());
+    batch.commit().then((value) {
+      emit(AppSendMessageSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(AppSendMessageErrorState(error.toString()));
+    });
+  }
+
+  List<MessageModel> messages = [];
+
+  void getMessage({required String receiverId}) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime', descending: true)
+        .snapshots()
+        .listen((event) {
+      messages = [];
+      for (int i = 0; i < event.docs.length; i++) {
+        messages.add(MessageModel.fromJson(event.docs[i].data()));
+      }
+
+      emit(AppGetAllMessagesSuccessState());
+    });
   }
 }

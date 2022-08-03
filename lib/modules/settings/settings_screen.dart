@@ -1,9 +1,11 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/layout/cubit/app_cubit.dart';
 import 'package:social_app/layout/cubit/app_state.dart';
 import 'package:social_app/modules/edit_profile/edit_profile_screen.dart';
 import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/constants.dart';
 import 'package:social_app/shared/styles/icon_broken.dart';
 import 'package:social_app/shared/styles/styles.dart';
 
@@ -20,7 +22,7 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 200,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
@@ -31,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                         height: 140,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(defaultRadius),
                               topRight: Radius.circular(defaultRadius),
                             ),
@@ -55,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
@@ -146,19 +148,54 @@ class SettingsScreen extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {},
-                      child: Text('Add Photos'),
+                      child: const Text('Add Photos'),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   OutlinedButton(
                     onPressed: () {
                       navigatoTo(context: context, widget: EditProfileScreen());
                     },
-                    child: Icon(
+                    child: const Icon(
                       IconBroken.Edit,
                       size: 16,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          FirebaseMessaging.instance
+                              .subscribeToTopic('announcement');
+                        },
+                        child: const Text('subscribe')),
+                  ),
+                  const SizedBox(width: 15),
+                  Expanded(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          FirebaseMessaging.instance
+                              .unsubscribeFromTopic('announcement');
+                        },
+                        child: const Text('unsubscribe')),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        signOut(context);
+                      },
+                      child: const Text('sign out'),
                     ),
                   ),
                 ],

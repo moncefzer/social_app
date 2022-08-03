@@ -13,6 +13,17 @@ class AppGetUserErrorState extends AppState {
   AppGetUserErrorState(this.error);
 }
 
+//get all users
+class AppGetAllUsersLoadingState extends AppState {}
+
+class AppGetAllUsersSuccessState extends AppState {}
+
+class AppGetAllUsersErrorState extends AppState {
+  final String error;
+
+  AppGetAllUsersErrorState(this.error);
+}
+
 //get posts
 class AppGetPostsLoadingState extends AppState {}
 
@@ -72,3 +83,21 @@ class AppPostImagePickedSuccessState extends AppState {}
 class AppPostImagePickedErrorState extends AppState {}
 
 class AppRemovePostImageState extends AppState {}
+
+//send and get messages
+
+class AppSendMessageSuccessState extends AppState {}
+
+class AppSendMessageErrorState extends AppState {
+  final String error;
+
+  AppSendMessageErrorState(this.error);
+}
+
+class AppGetAllMessagesSuccessState extends AppState {}
+
+class AppGetAllMessagesErrorState extends AppState {
+  final String error;
+
+  AppGetAllMessagesErrorState(this.error);
+}

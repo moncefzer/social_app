@@ -1,0 +1,32 @@
+{
+  "_comments1" : "we create a post request to  https://fcm.googleapis.com/fcm/send",
+  "_comments2" : "and we path Authorization : key = {serveKey we get it from firebase}",
+  "_comments3" : " and Content-type : application/json",
+  "_comments4" : " and this is the body",
+
+  "_comment5": "if we want to send to a specific user",
+  "to" : "efbEHYIGS5-knaA4g138FN:APA91bF0kO_249NyH2Xa_ODEWlLbdJQ3btbBBTjNjfWfTvJtV8gF3pFHsGpmog_UZLpbEAkx0kLoaYU3sfBh9BeYFe1VWtRpYg3JK4RPrTaLFzWXgsFpazxTmmRq2RjcJeRch04-cS8t",
+  "_comment6": "if we want to send to a group of people in a topc",
+  "_to" : "/topics/announcement",
+  "notification" : {
+    "title" : "Hello world",
+    "body" : "from rest api fcm",
+    "sound" : "default"
+  },
+  "android" : {
+    "priority": "HIGH",
+    "notification" : {
+      "notification_priority" : "PRIORITY_MAX",
+      "sound" : "default",
+      "default_sound": true,
+      "default_vibrate_timings": true,
+      "default_light_settings":true
+    },
+    "data": {
+      "type" : "order",
+      "id" : 817,
+      "click_action" : "FLUTTER_NOTIFICATION_CLICK"
+    }
+  }
+}
+

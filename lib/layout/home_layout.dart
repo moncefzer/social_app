@@ -17,6 +17,10 @@ class HomeLayout extends StatelessWidget {
           navigatoTo(context: context, widget: NewPostScreen());
         }
       },
+      buildWhen: (prevState, state) {
+        return (state is AppChangeBottomNavItemState ||
+            state is AppNewPostState);
+      },
       builder: (context, state) {
         var cubit = AppCubit.get(context);
         return Scaffold(

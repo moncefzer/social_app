@@ -85,7 +85,7 @@ class NewPostScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                userModel!.name,
+                                userModel.name,
                                 style: TextStyle(
                                   height: 1.4,
                                 ),
